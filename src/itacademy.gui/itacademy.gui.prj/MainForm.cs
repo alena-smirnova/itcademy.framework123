@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using itacademy.gui.Dialogs;
 
 namespace itacademy.gui
 {
@@ -27,31 +28,69 @@ namespace itacademy.gui
 			_a = new A(new B());
 
 			InitializeComponent();
+
+			Font = SystemFonts.MessageBoxFont;
+			BackColor = SystemColors.Window;
 		}
 
 		#endregion
 
+		protected override void OnLoad(EventArgs e)
+		{
+			MinimumSize = Size;
+
+			base.OnLoad(e);
+
+			
+		}
+
 		#region Handlers
 
-		private void OnButtonTestClick(object sender, EventArgs e)
+		private async void OnButtonTestClick(object sender, EventArgs e)
 		{
 			try
 			{
-				var x = 5.5;
-				var y = 7.6;
+				//var x = 5.5;
+				//var y = 7.6;
 
-				A.Swap<double>(ref x, ref y);
-				
-				var p = $"Значение x={5} значение y={7}";
+				//A.Swap<double>(ref x, ref y);
 
-				Debug.WriteLine($@"x={x}, y={y}");
+				//var p = $"Значение x={5} значение y={7}";
 
-				var str = "123fff";
-				int a;
-				a = int.Parse(str);
+				//Debug.WriteLine($@"x={x}, y={y}");
+
+				//var str = "123fff";
+				//int a;
+				//a = int.Parse(str);
+				//{
+				//	Debug.WriteLine("OK");
+				//}
+
+				var progress = new Progress<ProgressArgs>();
+
+				using(var progressForm = new ProgressForm(progress))
 				{
-					Debug.WriteLine("OK");
+					progressForm.Show(this);
+					await TestAsyncProgressMethods.TestProgress(progress);
+					progressForm.Close();
 				}
+
+				//using(var dialogForm = new DialogFormTest1())
+				//{
+				//	switch(dialogForm.ShowDialog(this))
+				//	{
+				//		case DialogResult.OK:
+				//			{
+
+				//				break;
+				//			}
+				//		default:
+				//		case DialogResult.Cancel:
+				//			{
+				//				break;
+				//			}
+				//	}
+				//}
 			}
 			catch(Exception exc)
 			{
